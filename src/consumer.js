@@ -9,9 +9,7 @@ const init = async () => {
   const mailSender = new MailSender();
   const listener = new Listener(notesService, mailSender);
 
-  const connectionString = `amqps://${process.env.AMAZON_MQ_USERNAME}:${process.env.AMAZON_MQ_PASSWORD}@${process.env.RABBITMQ_SERVER}:${process.env.AMAZON_MQ_PORT}`;
-  const connection = await amqp.connect(connectionString);
-  
+  const connection = await amqp.connect(process.env.RABBITMQ_SERVER);
   const channel = await connection.createChannel();
 
   await channel.assertQueue("export:notes", {
